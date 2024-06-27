@@ -1,0 +1,20 @@
+Parameters: 
+    SubnetId:
+        Type: String
+        Default: subnet-09f15461346ceca58
+    SecurityGroupId:
+        Type: String
+        Default: sg-0d85afc559551a310
+    ImageId:
+        Type: String
+        Default: ami-08a0d1e16fc3f61ea
+
+Resources:
+    Ec2Instance:
+        Type: AWS::EC2::Instance
+        Properties:
+            InstanceType: t2.micro 
+            ImageId: !Ref ImageId 
+            SubnetId: !Ref SubnetId
+            SecurityGroupIds:
+            - !Ref SecurityGroupId
