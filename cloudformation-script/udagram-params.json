@@ -1,10 +1,10 @@
 [
     {
         "ParameterKey": "ProjectName",
-        "ParameterValue": "udacity-project2"
+        "ParameterValue": "dhq-udacity-project2"
     },
     {
         "ParameterKey": "S3BucketName",
-        "ParameterValue": "myudagrambucket"
+        "ParameterValue": "dhq-my-udagram-bucket"
     }
 ]
