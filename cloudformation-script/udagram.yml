@@ -16,7 +16,7 @@ Resources:
             GroupDescription: Allow http access to our load balancer
             VpcId:
                 Fn::ImportValue:
-                    !Sub "${EnvironmentName}-VPCID"
+                    !Sub "${EnvironmentName}-vpc-id"
             SecurityGroupIngress:
                 - IpProtocol: tcp
                   FromPort: 80
@@ -29,7 +29,7 @@ Resources:
             GroupDescription: Allow http access to our hosts from the LB Security Group
             VpcId:
                 Fn::ImportValue:
-                    !Sub "${EnvironmentName}-VPCID"
+                    !Sub "${EnvironmentName}-vpc-id"
             SecurityGroupIngress:
                 - IpProtocol: tcp
                   FromPort: 80
@@ -101,7 +101,7 @@ Resources:
         Properties:
             VPCZoneIdentifier:
             - Fn::ImportValue: 
-                !Sub "${EnvironmentName}-PRIV-NETS"
+                !Sub "${EnvironmentName}-private-subnets"
             LaunchTemplate:
                 LaunchTemplateId: !Ref WebAppLaunchTemplate
                 Version: !GetAtt WebAppLaunchTemplate.LatestVersionNumber
@@ -115,8 +115,8 @@ Resources:
         Type: AWS::ElasticLoadBalancingV2::LoadBalancer
         Properties:
             Subnets:
-            - Fn::ImportValue: !Sub "${EnvironmentName}-PUB1-SN"
-            - Fn::ImportValue: !Sub "${EnvironmentName}-PUB2-SN"
+            - Fn::ImportValue: !Sub "${EnvironmentName}-public-subnet1"
+            - Fn::ImportValue: !Sub "${EnvironmentName}-public-subnet2"
             SecurityGroups:
             - Ref: LBSecGroup
 
@@ -157,7 +157,7 @@ Resources:
             UnhealthyThresholdCount: 5
             VpcId: 
                 Fn::ImportValue:
-                    Fn::Sub: "${EnvironmentName}-VPCID"
+                    Fn::Sub: "${EnvironmentName}-vpc-id"
 
 Outputs:
 

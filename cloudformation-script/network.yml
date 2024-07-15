@@ -3,8 +3,8 @@ Description: >
 
 Parameters:
 
-    ProjectName:
-        Description: Project name used for tagging resources
+    EnvironmentName:
+        Description: Environment name used for tagging resources
         Type: String
 
     VpcCIDR: 
@@ -41,14 +41,14 @@ Resources:
             EnableDnsHostnames: true
             Tags: 
                 - Key: Name 
-                  Value: !Ref ProjectName
+                  Value: !Ref EnvironmentName
             
     InternetGateway:
         Type: AWS::EC2::InternetGateway
         Properties:
             Tags:
             - Key: Name
-              Value: !Ref ProjectName
+              Value: !Ref EnvironmentName
             
     InternetGatewayAttachment:
         Type: AWS::EC2::VPCGatewayAttachment
@@ -65,7 +65,7 @@ Resources:
             MapPublicIpOnLaunch: true
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${ProjectName}-public-AZ1
+                  Value: !Sub ${EnvironmentName}-public-AZ1
 
     PublicSubnet2: 
         Type: AWS::EC2::Subnet
@@ -76,7 +76,7 @@ Resources:
             MapPublicIpOnLaunch: true
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${ProjectName}-public-AZ2
+                  Value: !Sub ${EnvironmentName}-public-AZ2
 
     PrivateSubnet1: 
         Type: AWS::EC2::Subnet
@@ -87,7 +87,7 @@ Resources:
             MapPublicIpOnLaunch: false
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${ProjectName}-private-AZ1
+                  Value: !Sub ${EnvironmentName}-private-AZ1
 
     PrivateSubnet2: 
         Type: AWS::EC2::Subnet
@@ -98,7 +98,7 @@ Resources:
             MapPublicIpOnLaunch: false
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${ProjectName}-private-AZ2
+                  Value: !Sub ${EnvironmentName}-private-AZ2
 
     NatGateway1EIP:
         Type: AWS::EC2::EIP
@@ -107,7 +107,7 @@ Resources:
             Domain: vpc
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${ProjectName}-nat-gateway-1
+                  Value: !Sub ${EnvironmentName}-nat-gateway-1
 
     NatGateway2EIP:
         Type: AWS::EC2::EIP
@@ -116,7 +116,7 @@ Resources:
             Domain: vpc
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${ProjectName}-nat-gateway-2
+                  Value: !Sub ${EnvironmentName}-nat-gateway-2
 
     NatGateway1: 
         Type: AWS::EC2::NatGateway
@@ -125,7 +125,7 @@ Resources:
             SubnetId: !Ref PublicSubnet1
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${ProjectName}-nat-gateway-1
+                  Value: !Sub ${EnvironmentName}-nat-gateway-1
 
     NatGateway2: 
         Type: AWS::EC2::NatGateway
@@ -134,7 +134,7 @@ Resources:
             SubnetId: !Ref PublicSubnet2
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${ProjectName}-nat-gateway-2
+                  Value: !Sub ${EnvironmentName}-nat-gateway-2
 
     PublicRouteTable:
         Type: AWS::EC2::RouteTable
@@ -142,7 +142,7 @@ Resources:
             VpcId: !Ref VPC
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${ProjectName}-public-route
+                  Value: !Sub ${EnvironmentName}-public-route
 
     DefaultPublicRoute: 
         Type: AWS::EC2::Route
@@ -170,7 +170,7 @@ Resources:
             VpcId: !Ref VPC
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${ProjectName}-private-route-AZ1
+                  Value: !Sub ${EnvironmentName}-private-route-AZ1
 
     DefaultPrivateRoute1:
         Type: AWS::EC2::Route
@@ -191,7 +191,7 @@ Resources:
             VpcId: !Ref VPC
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${ProjectName}-private-route-AZ2
+                  Value: !Sub ${EnvironmentName}-private-route-AZ2
 
     DefaultPrivateRoute2:
         Type: AWS::EC2::Route
@@ -212,58 +212,58 @@ Outputs:
         Description: A reference to the created VPC
         Value: !Ref VPC
         Export:
-            Name: !Sub ${ProjectName}-vpc-id
+            Name: !Sub ${EnvironmentName}-vpc-id
 
     VPCPublicRouteTable:
         Description: Public Routing
         Value: !Ref PublicRouteTable
         Export:
-            Name: !Sub ${ProjectName}-PUB-Route
+            Name: !Sub ${EnvironmentName}-PUB-Route
 
     VPCPrivateRouteTable1:
         Description: Private Routing AZ1
         Value: !Ref PrivateRouteTable1
         Export:
-            Name: !Sub ${ProjectName}-Private1-Route
+            Name: !Sub ${EnvironmentName}-Private1-Route
 
     VPCPrivateRouteTable2:
         Description: Private Routing AZ2
         Value: !Ref PrivateRouteTable2
         Export:
-            Name: !Sub ${ProjectName}-Private2-Route
+            Name: !Sub ${EnvironmentName}-Private2-Route
 
     PublicSubnets:
         Description: A list of the public subnets
         Value: !Join [ ",", [ !Ref PublicSubnet1, !Ref PublicSubnet2 ]]
         Export:
-            Name: !Sub ${ProjectName}-public-subnets
+            Name: !Sub ${EnvironmentName}-public-subnets
 
     PrivateSubnets:
         Description: A list of the private subnets
         Value: !Join [ ",", [ !Ref PrivateSubnet1, !Ref PrivateSubnet2 ]]
         Export:
-            Name: !Sub ${ProjectName}-private-subnets
+            Name: !Sub ${EnvironmentName}-private-subnets
 
     PublicSubnet1:
         Description: A reference to the public subnet in the 1st Availability Zone
         Value: !Ref PublicSubnet1
         Export:
-            Name: !Sub ${ProjectName}-public-subnet1
+            Name: !Sub ${EnvironmentName}-public-subnet1
 
     PublicSubnet2: 
         Description: A reference to the public subnet in the 2nd Availability Zone
         Value: !Ref PublicSubnet2
         Export:
-            Name: !Sub ${ProjectName}-public-subnet2
+            Name: !Sub ${EnvironmentName}-public-subnet2
 
     PrivateSubnet1:
         Description: A reference to the private subnet in the 1st Availability Zone
         Value: !Ref PrivateSubnet1
         Export:
-            Name: !Sub ${ProjectName}-private-subnet1
+            Name: !Sub ${EnvironmentName}-private-subnet1
 
     PrivateSubnet2: 
         Description: A reference to the private subnet in the 2nd Availability Zone
         Value: !Ref PrivateSubnet2
         Export:
-            Name: !Sub ${ProjectName}-private-subnet2
+            Name: !Sub ${EnvironmentName}-private-subnet2

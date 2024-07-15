@@ -1,6 +1,6 @@
 [
     {
-        "ParameterKey": "ProjectName",
+        "ParameterKey": "EnvironmentName",
         "ParameterValue": "Dhq-udacity-project2"
     },
     {
